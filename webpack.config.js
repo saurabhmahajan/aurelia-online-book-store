@@ -1,12 +1,19 @@
 var path = require('path');
-const {AureliaPlugin} = require('aurelia-webpack-plugin');
+const webpack = require('webpack');
+
+const {
+    AureliaPlugin
+} = require('aurelia-webpack-plugin');
+const bootstrapEntryPoints = require('./webpack.bootstrap.config.js');
+
 
 module.exports = {
     entry: {
-        app: "aurelia-bootstrapper"
+        app: "aurelia-bootstrapper",
+        bootstrap: bootstrapEntryPoints.dev
     },
 
-    output:{
+    output: {
         path: path.resolve(__dirname, "dist"),
         filename: "[name].bundle.js",
         publicPath: "/dist/"
@@ -18,8 +25,7 @@ module.exports = {
     },
 
     module: {
-        rules: [
-            {
+        rules: [{
                 test: /\.js$/,
                 exclude: ["node_modules"],
                 use: "babel-loader"
@@ -27,6 +33,30 @@ module.exports = {
             {
                 test: /\.html$/,
                 use: "html-loader"
+            },
+            {
+                test: /\.css$/,
+                use: ['style-loader', 'css-loader', 'postcss-loader']
+            },
+            {
+                test: /\.scss$/,
+                use: ['style-loader', 'css-loader', 'postcss-loader', 'sass-loader']
+            },
+            {
+                test: /\.woff2?(\?v=[0-9]\.[0-9]\.[0-9])?$/,
+                use: 'url-loader?limit=10000',
+            },
+            {
+                test: /\.(ttf|eot|svg)(\?[\s\S]+)?$/,
+                use: 'file-loader',
+            },
+            {
+                test: /bootstrap-sass\/assets\/javascripts\//,
+                use: 'imports-loader?jQuery=jquery'
+            },
+            {
+                test: /bootstrap-sass[\/\\]assets[\/\\]javascripts[\/\\]/,
+                loader: 'imports-loader?jQuery=jquery'
             }
         ]
     },
@@ -34,6 +64,8 @@ module.exports = {
     //watch: true,
 
     plugins: [
-        new AureliaPlugin({includeAll: "src"})
+        new AureliaPlugin({
+            includeAll: "src"
+        })
     ]
 }
