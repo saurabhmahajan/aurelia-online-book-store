@@ -1,3 +1,11 @@
 <template>
     Books
+
+    <ul>
+        <li repeat.for="book of result.items">
+            <span>${book.volumeInfo.title}</span>
+            <img src.bind="book.volumeInfo.imageLinks.smallThumbnail" alt="">
+        </li>
+    </ul>
+
 </template>

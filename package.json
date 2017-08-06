@@ -24,6 +24,7 @@
     "jquery": "^3.2.1"
   },
   "devDependencies": {
+    "aurelia-http-client": "^1.1.1",
     "aurelia-webpack-plugin": "^2.0.0-rc.3",
     "babel-core": "^6.25.0",
     "babel-loader": "^7.1.1",
